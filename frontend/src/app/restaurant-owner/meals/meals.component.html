@@ -1,0 +1,103 @@
+<app-navbar></app-navbar>
+<div *ngIf="addError" class="alert alert-danger center-alert"  role="alert">
+  {{addError}}
+</div>
+<div class="row">
+    <div class="col-md-6 major-card">
+        <div class="list-group">
+            <li class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                <h4 class="mb-1">Meals</h4>
+                <button type="button" class="btn btn-secondary btn-sm " data-toggle="modal" data-target="#addMealModal">Add Meal</button>
+                </div>
+            </li>
+            <div *ngIf="!meals" class="alert alert-danger"  role="alert">
+              {{errorMeals}}
+            </div>
+            <div *ngIf="meals">
+              <a class="list-group-item list-group-item-action flex-column align-items-start" *ngFor="let meal of meals" (click)="getMeal(meal.meal_id)">
+                  <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">{{meal.meal_name}}</h5>
+                  <small>{{meal.meal_price}} pesos</small>
+                  </div>
+                  <p class="mb-1">{{meal.meal_description}}</p>
+              </a>
+            </div>
+        </div> 
+    </div>
+    <div class="col-md-6" *ngIf="activeMeal_name">
+        <div class="major-card">
+            <div class="card">
+                <h2 class="card-header">{{activeMeal_name}}</h2>
+                <div class="card-body">
+                    <h5 class="card-title">{{activeMeal_description}}</h5>
+                    <p class="card-text">{{activeMeal_price}} pesos</p>
+                    <a href="/meals" class="btn btn-primary" data-toggle="modal" data-target="#editMealModal">Edit</a>
+                    <button type="button" class="close" (click)="delete()">
+                        delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Meal Modal -->
+<div class="modal fade" id="addMealModal" tabindex="-1" role="dialog" aria-labelledby="addMealModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addMealModalLabel">Add Meal</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="form-group">
+                  <label for="mealname">Meal Name</label>
+                  <input #mealNameText type="name" class="form-control" id="name" aria-describedby="mealNameHelp" placeholder="Enter name">
+                  <label for="mealdescription">Meal Description</label>
+                  <input #mealDescriptionText type="name" class="form-control" id="description" aria-describedby="mealDescriptionHelp" placeholder="Enter Description">
+                  <label for="mealprice">Meal Price</label>
+                  <input #mealPriceText type="number" class="form-control" id="price" aria-describedby="mealPriceHelp" placeholder="Enter Price">
+                </div>
+                </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="addMeal(mealNameText.value, mealDescriptionText.value, mealPriceText.value)">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Meal Modal -->
+<div class="modal fade" id="editMealModal" tabindex="-1" role="dialog" aria-labelledby="editMealModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editMealModalLabel">Edit Meal</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="form-group">
+                  <label for="mealname">Meal Name</label>
+                  <input #editmealNameText type="name" class="form-control" id="name" aria-describedby="mealNameHelp" placeholder="Enter name" value={{activeMeal_name}}>
+                  <label for="mealdescription">Meal Description</label>
+                  <input #editmealDescriptionText type="name" class="form-control" id="description" aria-describedby="mealDescriptionHelp" placeholder="Enter Description" value={{activeMeal_description}}>
+                  <label for="mealprice">Meal Price</label>
+                  <input #editmealPriceText type="number" class="form-control" id="price" aria-describedby="mealPriceHelp" placeholder="Enter Price" value={{activeMeal_price}}>
+                </div>
+                </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="editMeal(editmealNameText.value, editmealDescriptionText.value, editmealPriceText.value)">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>

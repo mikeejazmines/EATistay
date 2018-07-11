@@ -1,0 +1,74 @@
+<div class="row">
+    <div class="col-md-3 major-card">
+        <div class="container card-row">
+            <div class="card" style="width: 100%;">
+                <div class="card-body">
+                <h3 class="card-title">{{restaurant_name}}</h3>
+                <h6 class="card-subtitle mb-2 text-muted"><i>"{{description}}"</i></h6>
+                <h5 class="card-subtitle mb-2 text-muted">Location</h5>
+                <p class="card-text text-muted">{{location}}</p>
+                <h5 class="card-subtitle mb-2 text-muted">Operating hours</h5>
+                <p class="card-text text-muted">{{opening }}am - {{closing}}pm</p>
+                <h5 class="card-subtitle mb-2 text-muted">Pending reservations</h5>
+                <p class="card-text text-muted">{{numreservations}}</p>
+                <h5 class="card-subtitle mb-2 text-muted">Next reservation</h5>
+                <p class="card-text text-muted">{{nextreservation | amDateFormat:'LL'}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 major-card">
+        <div class="container card-row">
+            <div class="card card-row" style="width: 100%;">
+                <div class="card-body">
+                    <h3 class="card-title">Menu</h3>
+                    <div *ngIf="!meals" class="alert alert-warning" role="alert">
+                        No meals
+                    </div>
+                    <div *ngIf="meals">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item text-muted" *ngFor="let meal of meals" routerLink="/meals/{{meal.meal_id}}">{{meal.meal_name}}</li>
+                        </ul>
+                        <button type="button" class="btn btn-link" routerLink="/meals">See more meals</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 major-card">
+        <div class="container card-row">
+            <div class="card card-row" style="width: 100%;">
+                <div class="card-body">
+                    <h3 class="card-title">Reservations</h3>
+                    <div *ngIf="!reservations" class="alert alert-warning"  role="alert">
+                        No reservations
+                    </div>
+                    <div *ngIf="reservations">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item text-muted" *ngFor="let reservation of reservations" >{{reservation.reservation_date | amDateFormat:'LLL'}}</li>
+                        </ul>
+                        <button type="button" class="btn btn-link" routerLink="/reservations">See more reservations</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 major-card">
+        <div class="container card-row">
+            <div class="card card-row" style="width: 100%;">
+                <div class="card-body">
+                    <h3 class="card-title">Reviews</h3>
+                    <div *ngIf="!reviews" class="alert alert-warning"  role="alert">
+                        No reviews
+                    </div>
+                    <div *ngIf="reviews">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item text-muted" *ngFor="let review of reviews" >"{{review.review_body}}"</li>
+                        </ul>
+                        <button type="button" class="btn btn-link" routerLink="/reviews">See more reviews</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

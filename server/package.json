@@ -1,0 +1,24 @@
+{
+  "name": "eatistay",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "JSONStream": "^1.3.3",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "boom": "^7.2.0",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "knex": "^0.14.6",
+    "mysql": "^2.15.0",
+    "router": "^1.3.3"
+  },
+  "devDependencies": {},
+  "description": ""
+}

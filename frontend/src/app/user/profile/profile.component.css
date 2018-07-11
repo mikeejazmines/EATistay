@@ -1,0 +1,22 @@
+.body {
+    padding: 5%;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .button-right {
+    align-items: flex-end;
+    margin-top: 5%;
+    margin-right: 5%;
+  }
+  .center {
+    margin: 0 auto;
+  }
+  .giant {
+    font-size: 4em;
+  }
+  .btn {
+    margin: 5px;
+  }
+  .close {
+    margin: 0px 5px;
+  }

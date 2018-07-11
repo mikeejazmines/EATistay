@@ -1,0 +1,30 @@
+.body {
+  padding: 5%;
+  margin: 0 auto;
+  text-align: center;
+}
+.button-right {
+  align-items: flex-end;
+  margin-top: 5%;
+  margin-right: 5%;
+}
+.center {
+  margin: 0 auto;
+}
+.giant {
+  font-size: 4em;
+}
+.meals {
+  padding: 5% 0%;
+}
+.btn {
+  margin: 5px;
+}
+.card {
+  margin-bottom: 10%;
+  min-height: 120px;
+  text-align: center;
+}
+.center-alert {
+  margin: 1% 15%;
+}

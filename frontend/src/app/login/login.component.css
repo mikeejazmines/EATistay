@@ -1,0 +1,10 @@
+img {
+    margin: auto;
+  }
+.container {
+    background-color: white;
+    color: white;
+}
+.login {
+    padding: 20px;
+}

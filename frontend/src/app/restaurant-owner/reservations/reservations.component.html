@@ -1,0 +1,39 @@
+<app-navbar></app-navbar>
+<div class="row">
+    <div class="col-md-6 major-card">
+        <div class="list-group">
+            <li class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                <h4 class="mb-1">Reservations</h4>
+                <!-- <button type="button" class="btn btn-secondary btn-sm">Add Meal</button> -->
+                </div>
+            </li>
+            <div *ngIf="errorReservations" class="alert alert-danger"  role="alert">
+                {{errorReservations}}
+            </div>
+            <div *ngIf="reservations">
+                <a class="list-group-item list-group-item-action flex-column align-items-start" *ngFor="let reservation of reservations" (click)="getReservation(reservation.reservation_id)">
+                    <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{reservation.reservation_date | amDateFormat:'LLL'}}</h5>
+                    <span class="badge badge-primary">{{reservation.confirmation}}</span>
+                    </div>
+                    <p class="mb-1">Customer id: {{reservation.customer_id}}</p>
+                    <p class="mb-1">Customer name: {{reservation.customer_name}}</p>
+                    <!-- <small>Donec id elit non mi porta.</small> -->
+                </a>
+            </div>
+        </div> 
+    </div>
+    <div class="col-md-6" *ngIf="activeReservationID">
+        <div class="major-card">
+            <div class="card">
+                <h5 class="card-header">{{activeReservation_date | amDateFormat:'LLL'}}</h5>
+                <div class="card-body">
+                    <h5 class="card-title">Customer: {{activeReservation_custname}}</h5>
+                    <p class="card-text">Confirmed: {{activeReservation_confirmation}}</p>
+                    <button class="btn btn-primary" (click)="confirm(activeReservationID)">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

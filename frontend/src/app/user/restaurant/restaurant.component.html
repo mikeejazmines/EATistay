@@ -1,0 +1,120 @@
+<app-nav></app-nav>
+<div class="controller" *ngIf="activeRestaurant">
+    
+  <div *ngIf="addError" class="alert alert-danger center-alert"  role="alert">
+    {{addError}}
+  </div>
+  <div class="body">
+
+    <h1 class="giant">{{activeRestaurant.restaurant_name}}</h1>
+      <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#reservationModal">Book a Reservation</button>
+      <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#reviewModal">Leave a Review</button>
+    <hr>
+    <div class="container">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Location</th>
+            <th>Description</th>
+            <th>Operating Hours</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+              <td class="text-muted">{{activeRestaurant.restaurant_location}}</td>
+              <td class="text-muted">"{{activeRestaurant.restaurant_description}}"</td>
+              <td class="text-muted">{{activeRestaurant.opening}} - {{activeRestaurant.closing}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <hr>
+    <div class="row">
+      <h4 class="col-md-6">Meals</h4>
+      <h4 class="col-md-6">Reviews</h4>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="meals" *ngIf="meals">
+          <div class="row">
+              <a class="col-md-6" *ngFor="let meal of meals">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">{{meal.meal_name}}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{meal.meal_description}}</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">{{meal.meal_price}} pesos</h6>
+                  </div>
+                </div>
+              </a> 
+            </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+          <div class="meals" *ngIf="reviews">
+            <div class="row">
+                <a class="col-md-6" *ngFor="let review of reviews">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title text-muted">"{{review.review_body}}"</h5>
+                      <h6 class="card-subtitle mb-2 text-muted">- {{review.customer_name}}</h6>
+                    </div>
+                  </div>
+                </a> 
+              </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+<!-- Reserve Modal -->
+<div class="modal fade" id="reservationModal" tabindex="-1" role="dialog" aria-labelledby="reservationModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reservationModalLabel">Book a reservation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+            <div class="form-group">
+              <label for="datetime">Date and Time</label>
+              <input #timeText type="datetime-local" class="form-control" id="name" aria-describedby="timeHelp" placeholder="Enter time">
+            </div>
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="setReservation(timeText.value)">Book</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Review Modal -->
+<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="reviewModalLabel">Leave a Review</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+              <div class="form-group">
+                <label for="review">Tell us about the restaurant!</label>
+                <textarea #reviewText class="form-control" id="name" aria-describedby="reviewHelp" placeholder="Enter review"></textarea>
+              </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="sendReview(reviewText.value)">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>

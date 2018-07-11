@@ -1,0 +1,10 @@
+/* You can add global styles to this file, and also import other style files */
+.login {
+	width: 400px;
+
+}
+
+.centerComponent {
+	margin: auto;
+	align-content: center;
+}
