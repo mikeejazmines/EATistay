@@ -1,0 +1,174 @@
+const userCtrl = require('../user/controller');
+
+describe('user controller', () => {
+    let controller;
+    describe('newUser', () => {
+        it('should return status 400 and error message if email is missing', () => {
+            // arrange
+            const mockReq = {
+                body: {
+                    password: '1234',
+                    name: 'mark',
+                    type: 'customer'
+                }
+            };
+
+            const mockRes = jasmine.createSpyObj('mockRes', ['status', 'send']);
+            controller = userCtrl(null, null);
+
+            // act
+            controller.newUser(mockReq, mockRes);
+
+            // assert
+            expect(mockRes.status).toHaveBeenCalledWith(400);
+            expect(mockRes.send).toHaveBeenCalledWith({
+                error: 'missing email'
+            });
+        });
+
+        it('should return status 400 and error message if password is missing', () => {
+            // arrange
+            const mockReq = {
+                body: {
+                    email: 'mark.aldecimo@saperium.com',
+                    name: 'mark',
+                    type: 'customer'
+                }
+            };
+
+            const mockRes = jasmine.createSpyObj('mockRes', ['status', 'send']);
+            controller = userCtrl(null, null);
+
+            // act
+            controller.newUser(mockReq, mockRes);
+
+            // assert
+            expect(mockRes.status).toHaveBeenCalledWith(400);
+            expect(mockRes.send).toHaveBeenCalledWith({
+                error: 'missing password'
+            });
+        });
+
+        it('should return status 400 and error message if name is missing', () => {
+            // arrange
+            const mockReq = {
+                body: {
+                    email: 'mark.aldecimo@saperium.com',
+                    password: '1234',
+                    type: 'customer'
+                }
+            };
+
+            const mockRes = jasmine.createSpyObj('mockRes', ['status', 'send']);
+            controller = userCtrl(null, null);
+
+            // act
+            controller.newUser(mockReq, mockRes);
+
+            // assert
+            expect(mockRes.status).toHaveBeenCalledWith(400);
+            expect(mockRes.send).toHaveBeenCalledWith({
+                error: 'missing name'
+            });
+        });
+
+        it('should return status 400 and error message if type is missing', () => {
+            // arrange
+            const mockReq = {
+                body: {
+                    email: 'mark.aldecimo@saperium.com',
+                    password: '1234',
+                    name: 'mark'
+                }
+            };
+
+            const mockRes = jasmine.createSpyObj('mockRes', ['status', 'send']);
+            controller = userCtrl(null, null);
+
+            // act
+            controller.newUser(mockReq, mockRes);
+
+            // assert
+            expect(mockRes.status).toHaveBeenCalledWith(400);
+            expect(mockRes.send).toHaveBeenCalledWith({
+                error: 'Invalid user type'
+            });
+        });
+
+        it('should call repo.checkEmails with email in request body', () => {
+            // arrange
+            const mockReq = {
+                body: {
+                    email: 'mark.aldecimo@saperium.com',
+                    password: '1234',
+                    name: 'mark',
+                    type: 'customer'
+                }
+            };
+
+            const mockRes = jasmine.createSpyObj('mockRes', ['status', 'send']);
+            const mockRepo = jasmine.createSpyObj('mockRepo', ['checkEmails']);
+            mockRepo.checkEmails.and.callFake(() => {
+                return Promise.resolve();
+            })
+            controller = userCtrl(mockRepo, null);
+
+            // act
+            controller.newUser(mockReq, mockRes);
+
+            // assert
+            expect(mockRepo.checkEmails).toHaveBeenCalledWith(mockReq.body.email);
+        });
+
+        it('should return status 200 and session.user if success', (done) => {
+            // arrange
+            const mockReq = {
+                body: {
+                    email: 'mark.aldecimo@saperium.com',
+                    password: '1234',
+                    name: 'mark',
+                    type: 'customer'
+                },
+                session: {
+                    user: null
+                }
+            };
+
+            const mockRes = jasmine.createSpyObj('mockRes', ['status', 'send']);
+            const mockRepo = jasmine.createSpyObj('mockRepo', ['checkEmails', 'newUser']);
+            mockRepo.checkEmails.and.callFake(() => {
+                return Promise.resolve([null]);
+            });
+            mockRepo.newUser.and.callFake(() => {
+                return Promise.resolve({
+                    insertId: 1
+                });
+            });
+            const mockBcrypt = jasmine.createSpyObj('mockBcrypt', ['genSalt', 'hash']);
+            mockBcrypt.genSalt.and.callFake((saltRounds, callback) => {
+                return callback(null, 'anysalt');
+            });
+            mockBcrypt.hash.and.callFake((password, salt, callback) => {
+                return callback(null, 'anyhash');
+            });
+
+            mockRes.send.and.callFake(() => {
+                // assert
+                const mockNewUser = {
+                    userID: 1,
+                    username: 'mark',
+                    usertype: 'c'
+                };
+                expect(mockReq.session.user).toEqual(mockNewUser)
+                expect(mockRes.status).toHaveBeenCalledWith(200);
+                expect(mockRes.send).toHaveBeenCalledWith(mockNewUser);
+                done();
+            });
+
+            controller = userCtrl(mockRepo, mockBcrypt);
+
+            // act
+            controller.newUser(mockReq, mockRes);
+        });
+    });
+});
