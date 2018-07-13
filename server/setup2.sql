@@ -63,7 +63,7 @@ INSERT INTO users(email, username, password, user_type) VALUES ('sydney@gmail.co
 INSERT INTO restaurants(restaurant_name, restaurant_description, restaurant_location, owner_id, max_daily, opening, closing) VALUES ('Jollibee', "Bida ang Saya!", "BGC", 2, 10, "08:00:00", "20:00:00");
 INSERT INTO restaurants(restaurant_name, restaurant_description, restaurant_location, owner_id, max_daily, opening, closing) VALUES ('McDonalds', "Love ko 'to!", "BGC", 3, 5, "00:00:00", "24:00:00");
 INSERT INTO restaurants(restaurant_name, restaurant_description, restaurant_location, owner_id, max_daily, opening, closing) VALUES ('KFC', "Fingerlicking Good", "Katipunan", 4, 1, "06:00:00", "22:00:00");
-INSERT INTO restaurants(restaurant_name, restaurant_description, restaurant_location, owner_id, max_daily, opening, closing) VALUES ('BChon', "Saks lang", "Regis", 4, 10, "10:00:00", "21:00:00");
+INSERT INTO restaurants(restaurant_name, restaurant_description, restaurant_location, owner_id, max_daily, opening, closing) VALUES ('BonChon', "Korean Style Chicken!", "Regis", 4, 10, "10:00:00", "21:00:00");
 INSERT INTO reservations(customer_id, resto_id, reservation_date) VALUES (1, 1, NOW());
 INSERT INTO reservations(customer_id, resto_id, reservation_date) VALUES (1, 2, NOW());
 INSERT INTO reservations(customer_id, resto_id, reservation_date) VALUES (2, 1, '2018-05-04 14:00:08');

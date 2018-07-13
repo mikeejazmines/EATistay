@@ -1,4 +1,4 @@
-const userCtrl = function (repo, bcrypt, session) {
+const userCtrl = function (repo, bcrypt) {
 	const controller = {
 		getUsers: (req, res) => {
 			repo.getUsers().then(result => {
@@ -10,41 +10,51 @@ const userCtrl = function (repo, bcrypt, session) {
 
 		newUser: (req, res) => {
 			if(!req.body.email){
-				res.status(400).send({error: 'missing email'});
+				res.status(400);
+				return res.send({error: 'missing email'});
 			}
 			else if (!req.body.password){
-				res.status(400).send({error: 'missing password'});
+				res.status(400);
+				return res.send({error: 'missing password'});
 			}
 			else if(!req.body.name){
-				res.status(400).send({error: 'missing password'});
+				res.status(400);
+				return res.send({error: 'missing name'});
 			} else {
 				var type;
 			  	if (req.body.type == 'customer') {
 					type = 'c';
 			  	} else if(req.body.type == 'owner') {
 					type = 'o';
-			  	}
+			  	} else {
+					res.status(400);
+					return res.send({error: 'Invalid user type'});
+				  }
 				  
 				params= [req.body.email, req.body.name, null, type];
 			
 			  	repo.checkEmails(req.body.email).then(result => {
 					if(result[0]) {
-						res.status(400).send({error: "Email in use"});
+						res.status(400);
+						return res.send({error: "Email in use"});
 					} else {
 						bcrypt.genSalt(10, function(err, salt) {
 							bcrypt.hash(req.body.password, salt, function(err, hash) {
 								params[2] = hash;
 								repo.newUser(params).then(result => {
 									req.session.user = ({userID: result.insertId, username: req.body.name, usertype: type});
-									res.status(200).send(req.session.user);
+									res.status(200);
+									return res.send(req.session.user);
 								}).catch(error => {
-									res.status(500).send(error);
+									res.status(500);
+									return res.send(error);
 								})
 							})
 						})
 					}
 				}).catch(error => {
-					res.status(500).send(error);
+					res.status(500);
+					return res.send(error);
 				})
 			}
 		},
@@ -52,7 +62,8 @@ const userCtrl = function (repo, bcrypt, session) {
 		login: (req, res) => {
 			repo.checkEmails(req.body.email).then(result => {
 				if(!result[0]) {
-					res.status(400).send({error: 'Wrong login details'});
+					res.status(400);
+					return res.send({error: 'Wrong login details'});
 				} else {
 					bcrypt.compare(req.body.password, result[0].password).then((hashresult) => {
 						if(hashresult){
@@ -60,7 +71,8 @@ const userCtrl = function (repo, bcrypt, session) {
 						  console.log(req.session.user.userID);
 						  res.status(200).send(req.session.user);
 						} else {
-						  res.status(400).send({error: 'Wrong login details'});
+						  res.status(400);
+						  return res.send({error: 'Wrong login details'});
 						}
 						return hashresult;
 					}).catch(function(error){
@@ -74,11 +86,13 @@ const userCtrl = function (repo, bcrypt, session) {
 
 		setRestoID: (req, res) => {
 			if(!req.session.user.userID){
-				res.status(400).send({error: "No user ID"});
+				res.status(400);
+				return res.send({error: "No user ID"});
 			} else {
 				repo.getRestaurant(req.session.user.userID).then(result => {
 					if (!result[0]) {
-						res.status(400).send({error: 'No such restaurant.'});
+						res.status(400);
+						return res.send({error: 'No such restaurant.'});
 					} else {
 						req.session.restoid = result[0].restaurant_id;
 						req.session.restoname = result[0].restaurant_name;
@@ -92,7 +106,8 @@ const userCtrl = function (repo, bcrypt, session) {
 
 		logout: (req, res) => {
 			if(!req.session.user.userID){
-				res.status(400).send({error: "You are not logged in"});
+				res.status(400);
+				return res.send({error: "You are not logged in"});
 			}
 			else {
 				req.session.destroy();
