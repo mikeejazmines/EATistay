@@ -32,9 +32,11 @@ const userCtrl = function (repo, bcrypt) {
 				  }
 				  
 				params= [req.body.email, req.body.name, null, type];
-			
+				console.log('hello');
 			  	repo.checkEmails(req.body.email).then(result => {
+					console.log(result);
 					if(result[0]) {
+						console.log('in');
 						res.status(400);
 						return res.send({error: "Email in use"});
 					} else {
