@@ -32,11 +32,8 @@ const userCtrl = function (repo, bcrypt) {
 				  }
 				  
 				params= [req.body.email, req.body.name, null, type];
-				console.log('hello');
 			  	repo.checkEmails(req.body.email).then(result => {
-					console.log(result);
 					if(result[0]) {
-						console.log('in');
 						res.status(400);
 						return res.send({error: "Email in use"});
 					} else {
@@ -113,12 +110,14 @@ const userCtrl = function (repo, bcrypt) {
 			}
 			else {
 				req.session.destroy();
-				res.status(200).send({message: "Logged out"});
+				res.status(200);
+				res.send({message: "Logged out"});
 			}
 		},
 
 		checkSession: (req, res) => {
-			res.status(200).send({user: req.session});
+			res.status(200);
+			res.send({user: req.session});
 		},
 
 		checkUser: (req, res) => {

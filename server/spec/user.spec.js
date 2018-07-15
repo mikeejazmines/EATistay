@@ -202,12 +202,8 @@ describe('user controller', () => {
         });
     });
 
-    describe('login', () => {
-
-    });
-
     describe('setRestoID', () => {
-        fit('should return status 400 and error message if user session is missing', () => {
+        it('should return status 400 and error message if user session is missing', () => {
             // arrange
             const mockReq = {
                 body: {
@@ -225,7 +221,7 @@ describe('user controller', () => {
             controller = userCtrl(null, null);
 
             // act
-            controller.newUser(mockReq, mockRes);
+            controller.setRestoID(mockReq, mockRes);
 
             // assert
             expect(mockRes.status).toHaveBeenCalledWith(400);
@@ -236,6 +232,91 @@ describe('user controller', () => {
     });
 
     describe('logout', () => {
+        it('should return status 400 and error message if user session is missing', () => {
+            // arrange
+            const mockReq = {
+                body: {
+                    email: 'mark.aldecimo@saperium.com',
+                    password: '1234',
+                    name: 'mark',
+                    type: 'customer'
+                },
+                session: {
+                    user: {userID: null}
+                }
+            };
 
+            const mockRes = jasmine.createSpyObj('mockRes', ['status', 'send']);
+            controller = userCtrl(null, null);
+
+            // act
+            controller.logout(mockReq, mockRes);
+
+            // assert
+            expect(mockRes.status).toHaveBeenCalledWith(400);
+            expect(mockRes.send).toHaveBeenCalledWith({
+                error: "You are not logged in"
+            });
+        });
+
+        it('should return status 200 and message Logged out if success', () => {
+            // arrange
+            const mockReq = {
+                body: {
+                    email: 'mark.aldecimo@saperium.com',
+                    password: '1234',
+                    name: 'mark',
+                    type: 'customer'
+                },
+                session: {
+                    user: {userID: '111'}
+                }
+            };
+
+            const mockRes = jasmine.createSpyObj('mockRes', ['status', 'send']);
+            controller = userCtrl(null, null);
+            // mockRes.destroy.callFake(() =>{
+            //     return null;
+            // })
+
+            // act
+            controller.logout(mockReq, mockRes);
+
+            // assert
+            expect(mockRes.status).toHaveBeenCalledWith(200);
+            expect(mockRes.send).toHaveBeenCalledWith({
+                message: "Logged out"
+            });
+        });
     });
+
+    describe('checkSession', () => {
+        it('should return status 200 and user session if success', () => {
+            // arrange
+            const mockReq = {
+                body: {
+                    email: 'mark.aldecimo@saperium.com',
+                    password: '1234',
+                    name: 'mark',
+                    type: 'customer'
+                },
+                session: {
+                    user: {userID: 1}
+                }
+            };
+
+            const mockRes = jasmine.createSpyObj('mockRes', ['status', 'send']);
+            controller = userCtrl(null, null);
+
+            // act
+            controller.checkSession(mockReq, mockRes);
+
+            // assert
+            expect(mockRes.status).toHaveBeenCalledWith(200);
+            expect(mockRes.send).toHaveBeenCalledWith({
+                user: mockReq.session
+            });
+        });
+    });
+    
 });
