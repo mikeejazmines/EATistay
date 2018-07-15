@@ -120,35 +120,35 @@ describe('user controller', () => {
             expect(mockRepo.checkEmails).toHaveBeenCalledWith(mockReq.body.email);
         });
 
-        fit('should return status 400 and error message if email is in use', (done) => {
-            // arrange
-            const mockReq = {
-                body: {
-                    email: 'mark@mark.com',
-                    password: '1234',
-                    name: 'mark',
-                    type: 'customer'
-                }
-            };
+        // fit('should return status 400 and error message if email is in use', (done) => {
+        //     // arrange
+        //     const mockReq = {
+        //         body: {
+        //             email: 'mark@mark.com',
+        //             password: '1234',
+        //             name: 'mark',
+        //             type: 'customer'
+        //         }
+        //     };
 
-            const mockRes = jasmine.createSpyObj('mockRes', ['status', 'send']);
-            const mockRepo = jasmine.createSpyObj('mockRepo', ['checkEmails']);
-            mockRepo.checkEmails.and.callFake(() => {
-                return Promise.resolve([1]);
-            });
+        //     const mockRes = jasmine.createSpyObj('mockRes', ['status', 'send']);
+        //     const mockRepo = jasmine.createSpyObj('mockRepo', ['checkEmails']);
+        //     mockRepo.checkEmails.and.callFake(() => {
+        //         return Promise.resolve([1]);
+        //     });
 
-            controller = userCtrl(mockRepo, null);
+        //     controller = userCtrl(mockRepo, null);
 
-            // act
-            controller.newUser(mockReq, mockRes);
+        //     // act
+        //     controller.newUser(mockReq, mockRes);
 
-            // assert
-            expect(mockRes.status).toHaveBeenCalledWith(400);
-            expect(mockRes.send).toHaveBeenCalledWith({
-                error: 'Email in use'
-            });
-            done();
-        });
+        //     // assert
+        //     expect(mockRes.status).toHaveBeenCalledWith(400);
+        //     expect(mockRes.send).toHaveBeenCalledWith({
+        //         error: 'Email in use'
+        //     });
+        //     done();
+        // });
 
         it('should return status 200 and session.user if success', (done) => {
             // arrange
@@ -200,5 +200,42 @@ describe('user controller', () => {
             // act
             controller.newUser(mockReq, mockRes);
         });
+    });
+
+    describe('login', () => {
+
+    });
+
+    describe('setRestoID', () => {
+        fit('should return status 400 and error message if user session is missing', () => {
+            // arrange
+            const mockReq = {
+                body: {
+                    email: 'mark.aldecimo@saperium.com',
+                    password: '1234',
+                    name: 'mark',
+                    type: 'customer'
+                },
+                session: {
+                    user: {userID: null}
+                }
+            };
+
+            const mockRes = jasmine.createSpyObj('mockRes', ['status', 'send']);
+            controller = userCtrl(null, null);
+
+            // act
+            controller.newUser(mockReq, mockRes);
+
+            // assert
+            expect(mockRes.status).toHaveBeenCalledWith(400);
+            expect(mockRes.send).toHaveBeenCalledWith({
+                error: 'No user ID'
+            });
+        });
+    });
+
+    describe('logout', () => {
+
     });
 });
