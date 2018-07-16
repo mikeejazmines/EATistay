@@ -2,13 +2,16 @@ const reservationCtrl = function (repo) {
 	const controller = {
 		newReservation: (req, res) => {
 			if(!req.body.customer_id){
-				res.status(400).send({error: 'missing customer id'});
+        res.status(400);
+        res.send({error: 'missing customer id'});
 			}
 			else if(!req.body.resto_id){
-				res.status(400).send({error: 'missing restaurant id'});
+        res.status(400);
+        res.send({error: 'missing restaurant id'});
 			} 
 			else if(!req.body.resdate){
-				res.status(400).send({error: 'missing date'});
+        res.status(400);
+        res.send({error: 'missing date'});
 			}
 			else {
 				params= [req.body.customer_id, req.body.customer_name, req.body.resto_id, req.body.resto_name, req.body.resdate]

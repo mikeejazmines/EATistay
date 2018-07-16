@@ -38,7 +38,8 @@ const restaurantCtrl = function (repo) {
 				})
 			} else {
 				if(!req.session.restoid){
-					res.status(400).send({error: 'missing restaurant id'});
+					res.status(400);
+					res.send({error: 'missing restaurant id'});
 				} else {
 					repo.getRestaurant(req.session.restoid).then(result => {
 						if (!result) {
@@ -98,16 +99,20 @@ const restaurantCtrl = function (repo) {
 			params= [req.body.name, req.body.description, req.body.location, req.session.user.userID, req.body.opening, req.body.closing, req.body.limit]
 
 			if(!req.body.name){
-				res.status(400).send({error: 'missing name'});
+				res.status(400);
+				res.send({error: 'missing name'});
 			}
 			else if(!req.body.description){
-				res.status(400).send({error: 'missing description'});
+				res.status(400);
+				res.send({error: 'missing description'});
 			} 
 			else if(!req.body.location){
-				res.status(400).send({error: 'missing location'});
+				res.status(400);
+				res.send({error: 'missing location'});
 			}
 			else if(!req.session.user.userID){
-				res.status(400).send({error: 'missing owner id'});
+				res.status(400);
+				res.send({error: 'missing owner id'});
 			}
 			else {
 				repo.checkUser(req.session.user.userID).then(result => {
@@ -132,9 +137,11 @@ const restaurantCtrl = function (repo) {
         
         editDescription: (req, res) => {
 			if (!req.body.description) {
-				res.status(400).send({error: 'missing description'});
+				res.status(400);
+				res.send({error: 'missing description'});
 			} else if (!req.session.restoid) {
-				res.status(400).send({error: 'You have no restaurant. Login as an owner to add a restaurant'});
+				res.status(400);
+				res.send({error: 'You have no restaurant. Login as an owner to add a restaurant'});
 			} else {
 				repo.editDescription(req.session.restoid, req.body.description).then(result => {
 					if (result.affectedRows) {
@@ -150,9 +157,11 @@ const restaurantCtrl = function (repo) {
 
 		editLimit: (req, res) => {
 			if (!req.body.limit) {
-				res.status(400).send({error: 'No value for limit'});
+				res.status(400);
+				res.send({error: 'No value for limit'});
 			} else if (!req.session.restoid) {
-				res.status(400).send({error: 'You have no restaurant. Login as an owner to add a restaurant'});
+				res.status(400);
+				res.send({error: 'You have no restaurant. Login as an owner to add a restaurant'});
 			} else {
 				repo.editLimit(req.session.restoid, req.body.limit).then(result => {
 					if (value.affectedRows) {

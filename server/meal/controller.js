@@ -2,13 +2,17 @@ const mealCtrl = function (repo) {
 	const controller = {
 		addMeal: (req, res) => {
 			if(!req.body.meal_name){
-				res.status(400).send({error: 'missing name'});
+				res.status(400);
+				res.send({error: 'missing name'});
 			} else if(!req.body.meal_description){
-				res.status(400).send({error: 'missing description'});
+				res.status(400);
+				res.send({error: 'missing description'});
 			} else if(!req.body.meal_price){
-				res.status(400).send({error: 'missing price'});
+				res.status(400);
+				res.send({error: 'missing price'});
 			} else if(!req.session.restoid){
-				res.status(400).send({error: 'You have no restaurant. Login as an owner to add a restaurant'});
+				res.status(400);
+				res.send({error: 'You have no restaurant. Login as an owner to add a restaurant'});
 			} else {
 				params= [req.body.meal_name, req.body.meal_price, req.body.meal_description, req.session.restoid]
 
@@ -33,16 +37,20 @@ const mealCtrl = function (repo) {
 		editMeal: (req, res) => {
 			params = [req.body.price, req.body.description, req.body.name, req.body.meal_id]
 			if(!req.body.price){
-				res.status(400).send({error: 'missing price'});
+				res.status(400);
+				res.send({error: 'missing price'});
 			}
 			else if(!req.body.description){
-				res.status(400).send({error: 'missing description'});
+				res.status(400);
+				res.send({error: 'missing description'});
 			}
 			else if(!req.body.name){
-				res.status(400).send({error: 'missing name'});
+				res.status(400);
+				res.send({error: 'missing name'});
 			}
 			else if(!req.body.meal_id){
-				res.status(400).send({error: 'missing meal id'});
+				res.status(400);
+				res.send({error: 'missing meal id'});
 			} else {
 				repo.editMeal(params).then(result => {
 					if (result.affectedRows) {
@@ -58,7 +66,8 @@ const mealCtrl = function (repo) {
 
 		deleteMeal: (req, res) => { // params
 			if(!req.params.id){
-				res.status(400).send({error: 'missing meal id'});
+				res.status(400);
+				res.send({error: 'missing meal id'});
 			} else {
 				repo.deleteMeal(req).then(result => {
 					if(result.affectedRows) {
@@ -78,7 +87,8 @@ const mealCtrl = function (repo) {
         
         getMeals: (req, res) => {
 			if(!req.params.resto_id){
-				res.status(400).send({error: 'missing restaurant id'});
+				res.status(400);
+				res.send({error: 'missing restaurant id'});
 			} else {
 				repo.getRestaurant(req.params.resto_id).then(result => {
 					console.log(result);
@@ -104,7 +114,8 @@ const mealCtrl = function (repo) {
         
 		getMeal: (req, res) => {
 			if(!req.params.meal_id){
-				res.status(400).send({error: 'missing meal id'});
+				res.status(400);
+				res.send({error: 'missing meal id'});
 			} else {
 				console.log('MEAL');
 				repo.getMeal(req.params.meal_id).then(result => {

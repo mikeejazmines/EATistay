@@ -274,10 +274,14 @@ describe('user controller', () => {
             };
 
             const mockRes = jasmine.createSpyObj('mockRes', ['status', 'send']);
+            mockReq.session = jasmine.createSpyObj('getMockSession', ['destroy']);
+            mockReq.session.user = {
+                userID: '111'
+            }
             controller = userCtrl(null, null);
-            // mockRes.destroy.callFake(() =>{
-            //     return null;
-            // })
+            mockReq.session.destroy.and.callFake(() =>{
+                mockReq.session;
+            })
 
             // act
             controller.logout(mockReq, mockRes);
