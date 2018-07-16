@@ -1,15 +1,17 @@
 const reviewCtrl = function (repo) {
 	const controller = {
 		makeReview: (req, res) => {
-			console.log(req.body);
 			if(!req.body.customer_id){
-				res.status(400).send({error: 'missing customer id'});
+				res.status(400);
+				res.send({error: 'missing customer id'});
 			}
 			else if(!req.body.resto_id){
-				res.status(400).send({error: 'missing restaurant id'});
+				res.status(400);
+				res.send({error: 'missing restaurant id'});
 			} 
 			else if(!req.body.review_body){
-				res.status(400).send({error: 'missing review'});
+				res.status(400);
+				res.send({error: 'missing review'});
 			}
 			else {
 				params= [req.body.review_body, req.body.customer_id, req.body.customer_name, req.body.resto_id]
@@ -45,7 +47,8 @@ const reviewCtrl = function (repo) {
 
 		getReviews: (req, res) => { // params
 			if(!req.params.resto_id){
-				res.status(400).send({error: 'missing restaurant id'});
+				res.status(400);
+				res.send({error: 'missing restaurant id'});
 			} else {
 				repo.getReviews(req).then(result => {
 					if (!result[0]) {

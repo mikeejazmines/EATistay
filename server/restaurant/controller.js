@@ -178,7 +178,8 @@ const restaurantCtrl = function (repo) {
         
         confirm: (req, res) => {
 			if(!req.body.id){
-				res.status(400).send({error: 'Reservation not found'});
+				res.status(400);
+				res.send({error: 'Reservation not found'});
 			} else {
 				repo.confirm(req.body.id).then(result => {
 					if (result.affectedRows) {

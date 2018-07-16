@@ -224,4 +224,28 @@ describe('restaurant controller', () => {
             });
         });
     });
+
+    describe('confirm', () => {
+        it('should return status 400 and error message if id is missing', () => {
+            // arrange
+            const mockReq = {
+                body: {
+                },
+                session: {
+                }
+            };
+
+            const mockRes = jasmine.createSpyObj('mockRes', ['status', 'send']);
+            controller = restaurantCtrl(null, null);
+
+            // act
+            controller.confirm(mockReq, mockRes);
+
+            // assert
+            expect(mockRes.status).toHaveBeenCalledWith(400);
+            expect(mockRes.send).toHaveBeenCalledWith({
+                error: 'Reservation not found'
+            });
+        });
+    });
 });
