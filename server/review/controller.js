@@ -15,10 +15,14 @@ const reviewCtrl = function (repo) {
 			}
 			else {
 				params= [req.body.review_body, req.body.customer_id, req.body.customer_name, req.body.resto_id]
-				
+				console.log('going in');
+				console.log(params)
 				repo.getRestaurant(req.body.resto_id).then(result => {
+					console.log(result);
 					if (!result) {
-						res.status(400).send({error: 'No such restaurant.'});
+						console.log('in');
+						res.status(400);
+						res.send({error: 'No such restaurant.'});
 					} else {
 						console.log('before review');
 						repo.makeReview(params).then(result => {
@@ -31,7 +35,8 @@ const reviewCtrl = function (repo) {
 					}
 				}).catch(error => {
 					console.log('second error');
-					res.status(500).send({error});
+					res.status(500);
+					res.send({error});
 				})
 			}
 		},

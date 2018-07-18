@@ -1,3 +1,5 @@
+import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
+
 import { AppComponent } from './app.component';
 import { AppRouting2Module } from './restaurant-owner/app-routing2/app-routing2.module';
 import { AppRouting3Module } from './user/app-routing3/app-routing3.module';
@@ -16,6 +18,9 @@ import { SharedModule } from './shared/shared.module';
 import { SignupComponent } from './signup/signup.component';
 import { UserModule } from './user/user.module';
 import { UserService } from './shared/services/user.service';
+import { WebsocketService } from './shared/services/websocket.service';
+
+const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
 @NgModule({
   declarations: [
@@ -35,8 +40,9 @@ import { UserService } from './shared/services/user.service';
     SharedModule,
     FormsModule,
     MomentModule,
+    SocketIoModule.forRoot(config),
   ],
-  providers: [UserService, OwnerService, CookieService],
+  providers: [UserService, OwnerService, CookieService, WebsocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
