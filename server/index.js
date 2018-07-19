@@ -31,8 +31,6 @@ io.on('connection', (socket) => {
       console.log(response);
       io.emit('userResponse', {type:'new-response', response: response});    
   });
-
-
 });
 
 var knex = require('knex')({

@@ -20,10 +20,10 @@ const reservationCtrl = function (repo) {
 				var max;
 
 				repo.getRestaurant(req.body.resto_id).then(result => {
-					if(!result[0]){
+					if(!result){
             res.status(400).send({error: 'Invalid input'});
           } else {
-            max = result.max_daily;
+            max = result[0].max_daily;
             dateTime = req.body.resdate.split("T");
             params[4] = dateTime[0] +" "+dateTime[1];
             if (!((dateTime[1] > result[0].opening) && (dateTime[1] < result[0].closing))) {
