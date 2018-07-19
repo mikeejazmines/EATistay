@@ -28,7 +28,6 @@ const restaurantCtrl = function (repo) {
 		getRestaurant: (req, res) => {
 			if(req.params.id){
 				repo.getRestaurant(req.params.id).then(result => {
-					console.log(result);
 					if (!result) {
 						res.status(400).send({error: 'No such restaurant.'});
 					} else res.status(200).send(result);
@@ -60,8 +59,6 @@ const restaurantCtrl = function (repo) {
 						res.status(400).send({error: 'No such restaurant.'});
 					} else {
 						repo.getMeals(req.session.restoid).then(mealResult => {
-							console.log('first');
-							console.log(mealResult);
 							if (!mealResult[0]) {
 								res.status(400).send({error: 'Restaurant is not selling meals now.'});
 							} else {
@@ -78,8 +75,6 @@ const restaurantCtrl = function (repo) {
 						res.status(400).send({error: 'No such restaurant.'});
 					} else {
 						repo.getMeals(req.params.resto_id).then(mealResult => {
-							console.log('second');
-							console.log(mealResult);
 							if (!mealResult[0]) {
 								res.status(400).send({error: 'Restaurant is not selling meals now.'});
 							} else {

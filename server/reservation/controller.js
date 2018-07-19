@@ -67,12 +67,10 @@ const reservationCtrl = function (repo) {
         var dateTime = req.body.resdate.split(" ");
         var max;
         repo.getRestaurant(req.body.resto_id).then(result => {
-          console.log(result);
           if(!result[0]) res.status(400).send({error: "No restaurant with that id."});
           max = result[0].max_daily;
 
           repo.getCount(dateTime[0]).then(dtResult => {
-            console.log(dtResult);
             if(!dtResult) {
               current = 0;
             } else {

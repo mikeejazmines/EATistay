@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+import { ToastrService } from 'ngx-toastr';
 import { WebsocketService } from './shared/services/websocket.service';
 
 @Component({
@@ -9,14 +10,10 @@ import { WebsocketService } from './shared/services/websocket.service';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private socket: WebsocketService) {}
+  constructor(private socket: WebsocketService, private toastr: ToastrService) {}
 
   title = 'EATistay';
 
   ngOnInit() {
-    this.socket.sendMessage('test');
-    this.socket.getMessage().subscribe((msg) => {
-      console.log(msg);
-    });
   }
 }

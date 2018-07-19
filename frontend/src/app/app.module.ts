@@ -4,6 +4,7 @@ import { AppComponent } from './app.component';
 import { AppRouting2Module } from './restaurant-owner/app-routing2/app-routing2.module';
 import { AppRouting3Module } from './user/app-routing3/app-routing3.module';
 import { AppRoutingModule } from './/app-routing.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { CookieService } from 'ngx-cookie-service';
 import { FormsModule } from '@angular/forms';
@@ -16,6 +17,7 @@ import { RestaurantOwnerModule } from './restaurant-owner/restaurant-owner.modul
 import { RestaurantSignupComponent } from './restaurant-signup/restaurant-signup.component';
 import { SharedModule } from './shared/shared.module';
 import { SignupComponent } from './signup/signup.component';
+import { ToastrModule } from 'ngx-toastr';
 import { UserModule } from './user/user.module';
 import { UserService } from './shared/services/user.service';
 import { WebsocketService } from './shared/services/websocket.service';
@@ -41,6 +43,8 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     FormsModule,
     MomentModule,
     SocketIoModule.forRoot(config),
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
   ],
   providers: [UserService, OwnerService, CookieService, WebsocketService],
   bootstrap: [AppComponent]

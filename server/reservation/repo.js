@@ -13,7 +13,6 @@ const reservationRepo = function (knex) {
         getCount: (dt) => {
             return new Promise((resolve, reject) => {
                 knex.raw(`SELECT COUNT(DATE(reservation_date)) as count FROM reservations WHERE DATE_FORMAT(reservation_date, '%Y-%m-%d') = \'${dt}\' GROUP BY DATE(reservation_date);`).then(function(value){
-                    console.log(value);
                     return resolve(value[0][0]);
                 }).catch(error => {
                     return reject(error);
@@ -24,7 +23,7 @@ const reservationRepo = function (knex) {
 		newReservation: (params) => {	
             return new Promise((resolve, reject) => {
                 knex.raw(`INSERT INTO reservations(customer_id, customer_name, resto_id, resto_name, reservation_date) VALUES (?, ?, ?, ?, ?)`, params).then(function(value){
-                    return resolve({reservation_id: value[0].insertId});
+                    return resolve(params, {reservation_id: value[0].insertId});
                 }).catch(error => {
                     return reject(error);
                 })
@@ -63,9 +62,7 @@ const reservationRepo = function (knex) {
 
         getReservations: (id) => {
             return new Promise((resolve, reject) => {
-                console.log(id);
                 knex.raw(`select * from reservations where resto_id = \'${id}\'`).then(function(value){
-                    console.log(value);
                     return resolve(value[0]);
                 }).catch(error => {
                     return reject(error);

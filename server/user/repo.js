@@ -33,7 +33,6 @@ const userRepo = function (knex) {
 		checkEmails: (email) => {
 			return new Promise((resolve, reject) => {
 				knex.raw(`select * from users where email = \'${email}\'`).then(function(value){
-					console.log(value);
 					return resolve(value[0]);
 				}).catch(error => {
 					return reject(error);

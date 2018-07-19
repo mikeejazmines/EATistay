@@ -67,7 +67,6 @@ const userCtrl = function (repo, bcrypt) {
 					bcrypt.compare(req.body.password, result[0].password).then((hashresult) => {
 						if(hashresult){
 						  req.session.user = ({userID: result[0].userid, username: result[0].username, usertype: result[0].user_type});
-						  console.log(req.session.user.userID);
 						  res.status(200).send(req.session.user);
 						} else {
 						  res.status(400);
@@ -123,7 +122,9 @@ const userCtrl = function (repo, bcrypt) {
 		checkUser: (req, res) => {
 			knex.raw('select * from users where userid = \'${req.params.id}\'').then(function(value){
 				res.status(200).send(value[0]);
-			}).catch(console.log)
+			}).catch(function(error){
+				res.status(500).send(error);
+			})
 		},	
 	}
 

@@ -11,7 +11,6 @@ const reviewRepo = function (knex) {
         },
 
 		makeReview: (params) => {	
-            console.log(params);
             return new Promise((resolve, reject) => {
                 knex.raw(`INSERT INTO reviews(review_body, customer_id, customer_name, resto_id) VALUES (?, ?, ?, ?)`, params).then(function(value){
                     return resolve({review_id: value[0].insertId, message: "Review added! Thank you!"})

@@ -17,7 +17,6 @@ const mealCtrl = function (repo) {
 				params= [req.body.meal_name, req.body.meal_price, req.body.meal_description, req.session.restoid]
 
 				repo.getRestaurant(req.session.restoid).then(result => {
-					console.log(result);
 					if(!result[0]){
 						res.status(400).send({error: 'No such restaurant.'});
 					}
@@ -91,7 +90,6 @@ const mealCtrl = function (repo) {
 				res.send({error: 'missing restaurant id'});
 			} else {
 				repo.getRestaurant(req.params.resto_id).then(result => {
-					console.log(result);
 					if(!result[0]){
 						res.status(400).send({error: 'No such restaurant.'});
 					}
@@ -117,9 +115,7 @@ const mealCtrl = function (repo) {
 				res.status(400);
 				res.send({error: 'missing meal id'});
 			} else {
-				console.log('MEAL');
 				repo.getMeal(req.params.meal_id).then(result => {
-					console.log(result);
 					if(!result[0]){
 						res.status(400).send({error: 'Meal not found.'});
 					}

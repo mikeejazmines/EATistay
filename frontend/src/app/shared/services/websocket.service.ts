@@ -12,9 +12,20 @@ export class WebsocketService {
     sendMessage(msg: string) {
         this.socket.emit('message', msg);
     }
+
+    sendUserResponse(response: Object) {
+      console.log(response);
+      this.socket.emit('userResponse', response);
+    }
+
      getMessage(): Observable<any> {
         return this.socket
             .fromEvent('message');
     }
+
+    getResponse(): Observable<any> {
+      return this.socket
+          .fromEvent('userResponse');
+  }
 }
 

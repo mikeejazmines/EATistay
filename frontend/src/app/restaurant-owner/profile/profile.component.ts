@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { OwnerService } from '../../shared/services/owner.service';
 import { Router } from '@angular/router';
+import { WebsocketService } from '../../shared/services/websocket.service';
 
 @Component({
   selector: 'app-profile',
@@ -11,7 +12,8 @@ import { Router } from '@angular/router';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor(private ownerService: OwnerService, private cookieService: CookieService, private router: Router) { }
+  constructor(private ownerService: OwnerService, private socket: WebsocketService,
+    private cookieService: CookieService, private router: Router) { }
 
   meals;
   reservations;
@@ -102,6 +104,14 @@ export class ProfileComponent implements OnInit {
 
       this.getReviews(Number(this.cookieService.get('restoID')));
     }
+    this.socket.getResponse().subscribe((res) => {
+      console.log(res);
+      if (Number(this.cookieService.get('restoID')) === res.response.id) {
+        if (res.response.type === 'reservation') {
+          this.numreservations++;
+        }
+      }
+    });
   }
 
 }

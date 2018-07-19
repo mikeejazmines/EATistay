@@ -25,6 +25,14 @@ io.on('connection', (socket) => {
         console.log("Message Received: " + message);
         io.emit('message', {type:'new-message', text: message});    
     });
+
+    socket.on('userResponse', (response) => {
+      console.log("Response Received:")
+      console.log(response);
+      io.emit('userResponse', {type:'new-response', response: response});    
+  });
+
+
 });
 
 var knex = require('knex')({

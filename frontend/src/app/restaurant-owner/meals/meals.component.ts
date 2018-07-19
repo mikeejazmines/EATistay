@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { CookieService } from 'ngx-cookie-service';
 import { OwnerService } from '../../shared/services/owner.service';
+import { WebsocketService } from '../../shared/services/websocket.service';
 
 @Component({
   selector: 'app-meals',
@@ -12,7 +13,7 @@ import { OwnerService } from '../../shared/services/owner.service';
 export class MealsComponent implements OnInit {
 
   constructor(private ownerService: OwnerService, private cookieService: CookieService,
-    private router: Router, private route: ActivatedRoute) { }
+    private socket: WebsocketService, private router: Router, private route: ActivatedRoute) { }
 
   meals;
   username;
@@ -68,7 +69,7 @@ export class MealsComponent implements OnInit {
 
   addMeal(name: string, description: string, price: number) {
     this.ownerService.addMeal(name, description, price).subscribe((result) => {
-      this.getMeals();
+      this.meals.push({meal_name: name, meal_description: description, meal_price: price, id: result.meal_id});
       this.addError = '';
     }, error => {
       this.addError = error.error.error;
