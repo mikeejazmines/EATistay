@@ -51,6 +51,7 @@ export class ReservationsComponent implements OnInit {
   confirm(resID: number) {
     this.ownerService.confirm(resID).subscribe((result) => {
       this.activeReservation_confirmation = 'confirmed!';
+      this.getReservations(Number(this.cookieService.get('restoID')));
       console.log(result);
     }, error => {
       console.log(error);

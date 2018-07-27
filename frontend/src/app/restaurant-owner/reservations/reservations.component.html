@@ -15,7 +15,7 @@
                 <a class="list-group-item list-group-item-action flex-column align-items-start" *ngFor="let reservation of reservations" (click)="getReservation(reservation.reservation_id)">
                     <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">{{reservation.reservation_date | amDateFormat:'LLL'}}</h5>
-                    <span class="badge badge-primary">{{reservation.confirmation}}</span>
+                    <span *ngIf="reservation.confirmation" class="badge badge-primary">confirmed</span>
                     </div>
                     <p class="mb-1">Customer id: {{reservation.customer_id}}</p>
                     <p class="mb-1">Customer name: {{reservation.customer_name}}</p>

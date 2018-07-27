@@ -70,6 +70,7 @@ export class MealsComponent implements OnInit {
   addMeal(name: string, description: string, price: number) {
     this.ownerService.addMeal(name, description, price).subscribe((result) => {
       this.meals.push({meal_name: name, meal_description: description, meal_price: price, id: result.meal_id});
+      // this.getMeals();
       this.addError = '';
     }, error => {
       this.addError = error.error.error;

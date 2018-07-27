@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { OwnerService } from '../../shared/services/owner.service';
 import { Router } from '@angular/router';
+import { ToastrService } from '../../../../node_modules/ngx-toastr';
 import { WebsocketService } from '../../shared/services/websocket.service';
 
 @Component({
@@ -13,6 +14,7 @@ import { WebsocketService } from '../../shared/services/websocket.service';
 export class ProfileComponent implements OnInit {
 
   constructor(private ownerService: OwnerService, private socket: WebsocketService,
+    private toaster: ToastrService,
     private cookieService: CookieService, private router: Router) { }
 
   meals;
